@@ -27,7 +27,13 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.SuppressModelStateInvalidFilter = true;
 });
 
-builder.Services.AddControllers().AddApplicationPart(typeof(dentistry_crm.Presentation.AssemblyReference).Assembly);
+builder.Services.AddControllers(config =>
+{
+    config.RespectBrowserAcceptHeader = true;
+    config.ReturnHttpNotAcceptable = true;
+    config.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+}).AddApplicationPart(typeof(dentistry_crm.Presentation.AssemblyReference).Assembly);
+
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
