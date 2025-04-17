@@ -1,0 +1,6 @@
+@dentistry_crm_HostAddress = http://localhost:5297
+
+GET {{dentistry_crm_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
