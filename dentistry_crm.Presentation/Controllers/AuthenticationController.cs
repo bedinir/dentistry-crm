@@ -17,7 +17,7 @@ namespace dentistry_crm.Presentation.Controllers
 
         public AuthenticationController(IServiceManager service) => _service = service;
 
-        [HttpPost]
+        [HttpPost("register")]
         //[ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Register([FromBody] UserForRegistrationDto userForRegistration)
         {
@@ -26,5 +26,15 @@ namespace dentistry_crm.Presentation.Controllers
                 return StatusCode(201);
             return BadRequest(result.Errors);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
+        {
+            if (!await _service.AuthenticationService.ValidateUser(userForAuthentication))
+                return Unauthorized(); ;
+
+            return Ok(new { Token = await _service.AuthenticationService.CreateToken() });
+        }
     }
+
 }
