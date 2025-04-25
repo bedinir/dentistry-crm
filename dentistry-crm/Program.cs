@@ -21,7 +21,7 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.ConfigureIdentity();
-
+builder.Services.ConfigureJWT(builder.Configuration);
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
