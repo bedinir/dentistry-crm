@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace dentistry_crm.Presentation.Controllers
 {
@@ -31,9 +26,11 @@ namespace dentistry_crm.Presentation.Controllers
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
         {
             if (!await _service.AuthenticationService.ValidateUser(userForAuthentication))
-                return Unauthorized(); ;
+                return Unauthorized();
 
-            return Ok(new { Token = await _service.AuthenticationService.CreateToken() });
+            var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
+            return Ok(tokenDto);
+
         }
     }
 

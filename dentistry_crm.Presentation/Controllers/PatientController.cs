@@ -28,7 +28,7 @@ namespace dentistry_crm.Presentation.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllPatients()
         {
             var patients = await _service.PatientService.GetAllPatients(trackChanges: false);
