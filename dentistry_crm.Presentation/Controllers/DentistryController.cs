@@ -14,14 +14,14 @@ namespace dentistry_crm.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllDentists()
         {
-            var dentists = await _service.DentistryService.GetAllDentists(trackChanges: false);
+            var dentists = await _service.DentistryService.GetAllDentistsAsync(trackChanges: false);
             return Ok(dentists);
         }
 
         [HttpGet("{id:guid}", Name = "DentistById")]
         public async Task<IActionResult> GetDentist(Guid id)
         {
-            var dentist = await _service.DentistryService.GetDentist(id, trackChanges: false);
+            var dentist = await _service.DentistryService.GetDentistAsync(id, trackChanges: false);
             return Ok(dentist);
         }
 
@@ -31,7 +31,7 @@ namespace dentistry_crm.Presentation.Controllers
             if (dentist == null)
                 return BadRequest("Dentist object is null");
 
-            var createdDentist = await _service.DentistryService.CreateDentist(dentist);
+            var createdDentist = await _service.DentistryService.CreateDentistAsync(dentist);
             return CreatedAtRoute("DentistById", new { id = createdDentist.DentistId }, createdDentist);
         }
         [HttpPut("{id:guid}")]
@@ -39,20 +39,20 @@ namespace dentistry_crm.Presentation.Controllers
         {
             if (dentist == null)
                 return BadRequest("Dentist object is null");
-            var dentistEntity = await _service.DentistryService.GetDentist(id, trackChanges: true);
+            var dentistEntity = await _service.DentistryService.GetDentistAsync(id, trackChanges: true);
             if (dentistEntity == null)
                 return NotFound();
-            await _service.DentistryService.UpdateDentist(id, dentist, trackChanges: true);
+            await _service.DentistryService.UpdateDentistAsync(id, dentist, trackChanges: true);
             return NoContent();
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteDentist(Guid id)
+        public async Task<IActionResult> DeleteDentistAsync(Guid id)
         {
-            var dentist = await _service.DentistryService.GetDentist(id, trackChanges: false);
+            var dentist = await _service.DentistryService.GetDentistAsync(id, trackChanges: false);
             if (dentist == null)
                 return NotFound();
-            await _service.DentistryService.DeleteDentist(id);
+            await _service.DentistryService.DeleteDentistAsync(id);
             return NoContent();
         }
     }

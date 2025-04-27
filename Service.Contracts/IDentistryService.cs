@@ -4,10 +4,10 @@ namespace Service.Contracts
 {
     public interface IDentistryService
     {
-        Task<IEnumerable<DentistDto>> GetAllDentists(bool trackChanges);
-        Task<DentistDto> GetDentist(Guid dentistId, bool trackChanges);
-        Task<DentistDto> CreateDentist(CreateDentistDto dentist);
-        Task<DentistDto> UpdateDentist(Guid dentistId, DentistForUpdateDto dentistForUpdate, bool trackChanges);
-        Task<bool> DeleteDentist(Guid dentistId);
+        Task<IEnumerable<DentistDto>> GetAllDentistsAsync(bool trackChanges);
+        Task<DentistDto> GetDentistAsync(Guid dentistId, bool trackChanges);
+        Task<DentistDto> CreateDentistAsync(CreateDentistDto dentist);
+        Task<DentistDto> UpdateDentistAsync(Guid dentistId, DentistForUpdateDto dentistForUpdate, bool trackChanges);
+        Task<bool> DeleteDentistAsync(Guid dentistId);
     }
 }

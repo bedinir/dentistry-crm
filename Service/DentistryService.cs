@@ -18,60 +18,60 @@ namespace Service
             _logger = logger;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<DentistDto>> GetAllDentists(bool trackChanges)
+        public async Task<IEnumerable<DentistDto>> GetAllDentistsAsync(bool trackChanges)
         {
             try
             {
-                var dentists = _repository.Dentistry.GetAllDentists(trackChanges);
+                var dentists = await _repository.Dentistry.GetAllDentistsAsync(trackChanges);
                 var dentistDtos = _mapper.Map<IEnumerable<DentistDto>>(dentists);
                 return dentistDtos;
             }
             catch (Exception ex)
             {
 
-                _logger.LogError($"Something went wrong in the {nameof(GetAllDentists)} action: {ex.Message}");
+                _logger.LogError($"Something went wrong in the {nameof(GetAllDentistsAsync)} action: {ex.Message}");
                 throw;
             }
         }
-        public async Task<DentistDto> GetDentist(Guid dentistId, bool trackChanges)
+        public async Task<DentistDto> GetDentistAsync(Guid dentistId, bool trackChanges)
         {
-            var dentist = _repository.Dentistry.GetDentist(dentistId, trackChanges);
+            var dentist = await _repository.Dentistry.GetDentistAsync(dentistId, trackChanges);
             if (dentist is null)
                 throw new NotFoundException(NotFoundException.GenerateMessage<Dentist>(dentistId));
 
             var dentistDto = _mapper.Map<DentistDto>(dentist);
             return dentistDto;
         }
-        public async Task<DentistDto> CreateDentist(CreateDentistDto dentist)
+        public async Task<DentistDto> CreateDentistAsync(CreateDentistDto dentist)
         {
             var dentistEntity = _mapper.Map<Dentist>(dentist);
             _repository.Dentistry.CreateDentist(dentistEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             return _mapper.Map<DentistDto>(dentistEntity);
         }
 
-        public async Task<DentistDto> UpdateDentist(Guid dentistId, DentistForUpdateDto dentistForUpdate, bool trackChanges)
+        public async Task<DentistDto> UpdateDentistAsync(Guid dentistId, DentistForUpdateDto dentistForUpdate, bool trackChanges)
         {
-            var dentistEntity = _repository.Dentistry.GetDentist(dentistId, trackChanges);
+            var dentistEntity = await _repository.Dentistry.GetDentistAsync(dentistId, trackChanges);
             if (dentistEntity is null)
                 throw new NotFoundException(NotFoundException.GenerateMessage<Dentist>(dentistId));
 
             _mapper.Map(dentistForUpdate, dentistEntity);
             _repository.Dentistry.UpdateDentist(dentistEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             return _mapper.Map<DentistDto>(dentistEntity);
         }
 
-        public async Task<bool> DeleteDentist(Guid dentistId)
+        public async Task<bool> DeleteDentistAsync(Guid dentistId)
         {
-            var dentist = _repository.Dentistry.GetDentist(dentistId, trackChanges: false);
+            var dentist = await _repository.Dentistry.GetDentistAsync(dentistId, trackChanges: false);
             if (dentist is null)
                 throw new NotFoundException(NotFoundException.GenerateMessage<Dentist>(dentistId));
 
             _repository.Dentistry.DeleteDentist(dentist);
-            _repository.Save();
+            await _repository.SaveAsync();
             return true;
         }
     }

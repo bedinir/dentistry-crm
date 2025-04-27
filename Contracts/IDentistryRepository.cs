@@ -9,11 +9,11 @@ namespace Contracts
 {
     public interface IDentistryRepository
     {
-        IEnumerable<Dentist> GetAllDentists(bool trackChanges);
-        Dentist GetDentist(Guid dentistId, bool trackChanges);
+        Task<IEnumerable<Dentist>> GetAllDentistsAsync(bool trackChanges);
+        Task<Dentist> GetDentistAsync(Guid dentistId, bool trackChanges);
         void CreateDentist(Dentist dentist);
         void UpdateDentist(Dentist dentist);
         void DeleteDentist(Dentist dentist);
-        bool IsDentistAvailable(Guid dentistId, DateTime date);
+        Task<bool> IsDentistAvailableAsync(Guid dentistId, DateTime date);
     }
 }

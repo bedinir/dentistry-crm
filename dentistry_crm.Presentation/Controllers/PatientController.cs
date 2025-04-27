@@ -23,7 +23,7 @@ namespace dentistry_crm.Presentation.Controllers
 
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
-            var createdPatient = await _service.PatientService.CreatePatient(patient);
+            var createdPatient = await _service.PatientService.CreatePatientAsync(patient);
             return CreatedAtRoute("PatientById", new { id = createdPatient.PatientId }, createdPatient);
         }
 
@@ -31,14 +31,14 @@ namespace dentistry_crm.Presentation.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllPatients()
         {
-            var patients = await _service.PatientService.GetAllPatients(trackChanges: false);
+            var patients = await _service.PatientService.GetAllPatientsAsync(trackChanges: false);
             return Ok(patients);
         }
 
         [HttpGet("{id:guid}", Name = "PatientById")]
         public async Task<IActionResult> GetPatient(Guid id)
         {
-            var patient = await _service.PatientService.GetPatient(id, trackChanges: false);
+            var patient = await _service.PatientService.GetPatientAsync(id, trackChanges: false);
             if (patient == null)
                 return NotFound();
             return Ok(patient);
@@ -47,10 +47,10 @@ namespace dentistry_crm.Presentation.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeletePatient(Guid id)
         {
-            var patient = await _service.PatientService.GetPatient(id, trackChanges: false);
+            var patient = await _service.PatientService.GetPatientAsync(id, trackChanges: false);
             if (patient == null)
                 return NotFound();
-            await _service.PatientService.DeletePatient(id);
+            await _service.PatientService.DeletePatientAsync(id);
             return NoContent();
         }
 
@@ -59,7 +59,7 @@ namespace dentistry_crm.Presentation.Controllers
         {
             if (patient == null)
                 return BadRequest("Patient object is null");
-            var updatedPatient = await _service.PatientService.UpdatePatient(id, patient, trackChanges: true);
+            var updatedPatient = await _service.PatientService.UpdatePatientAsync(id, patient, trackChanges: true);
             if (updatedPatient == null)
                 return NotFound();
             return Ok(updatedPatient);
@@ -71,11 +71,11 @@ namespace dentistry_crm.Presentation.Controllers
             if (patchDoc is null)
                 return BadRequest("Patch document is null");
 
-            var patientEntity = await _service.PatientService.GetPatientForPatch(id, trackChanges: true);
+            var patientEntity = await _service.PatientService.GetPatientForPatchAsync(id, trackChanges: true);
             
             patchDoc.ApplyTo(patientEntity.patientToPatch);
 
-            _service.PatientService.SaveChangesForPatch(patientEntity.patientEntity, patientEntity.patientToPatch);
+            _service.PatientService.SaveChangesForPatchAsync(patientEntity.patientEntity, patientEntity.patientToPatch);
             return NoContent();
         }
     }

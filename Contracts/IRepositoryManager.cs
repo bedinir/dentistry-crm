@@ -10,6 +10,6 @@ namespace Contracts
     {
         IDentistryRepository Dentistry { get; }
         IPatientRepository Patient { get; }
-        void Save();
+        Task SaveAsync();
     }
 }

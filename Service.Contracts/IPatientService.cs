@@ -5,12 +5,12 @@ namespace Service.Contracts
 {
     public interface IPatientService
     {
-        Task<IEnumerable<PatientDto>> GetAllPatients(bool trackChanges);
-        Task<PatientDto> GetPatient(Guid patientId, bool trackChanges);
-        Task<PatientDto> CreatePatient(CreatePatientDto patient);
-        Task<PatientDto> UpdatePatient(Guid patientId, UpdatePatientDto patient, bool trackChanges);
-        Task<bool> DeletePatient(Guid patientId);
-        Task<(UpdatePatientDto patientToPatch, Patient patientEntity)> GetPatientForPatch(Guid patientId, bool trackChanges);
-        void SaveChangesForPatch(Patient patientEntity, UpdatePatientDto patientToPatch);
+        Task<IEnumerable<PatientDto>> GetAllPatientsAsync(bool trackChanges);
+        Task<PatientDto> GetPatientAsync(Guid patientId, bool trackChanges);
+        Task<PatientDto> CreatePatientAsync(CreatePatientDto patient);
+        Task<PatientDto> UpdatePatientAsync(Guid patientId, UpdatePatientDto patient, bool trackChanges);
+        Task<bool> DeletePatientAsync(Guid patientId);
+        Task<(UpdatePatientDto patientToPatch, Patient patientEntity)> GetPatientForPatchAsync(Guid patientId, bool trackChanges);
+        void SaveChangesForPatchAsync(Patient patientEntity, UpdatePatientDto patientToPatch);
     }
 }

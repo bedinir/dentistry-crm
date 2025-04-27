@@ -9,8 +9,8 @@ namespace Contracts
 {
     public interface IPatientRepository
     {
-        IEnumerable<Patient> GetAllPatients(bool trackChanges);
-        Patient GetPatient(Guid patientId, bool trackChanges);
+        Task<IEnumerable<Patient>> GetAllPatientsAsync(bool trackChanges);
+        Task<Patient> GetPatientAsync(Guid patientId, bool trackChanges);
         void CreatePatient(Patient patient);
         void UpdatePatient(Patient patient);
         void DeletePatient(Patient patient);

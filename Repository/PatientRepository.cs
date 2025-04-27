@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -9,13 +10,13 @@ namespace Repository
             : base(repositoryContext)
         {
         }
-        public IEnumerable<Patient> GetAllPatients(bool trackChanges) =>
-            FindAll(trackChanges)
+        public async Task<IEnumerable<Patient>> GetAllPatientsAsync(bool trackChanges) =>
+            await FindAll(trackChanges)
                 .OrderBy(p => p.FirstName)
-                .ToList();
-        public Patient GetPatient(Guid patientId, bool trackChanges) =>
-            FindByCondition(p => p.PatientId.Equals(patientId), trackChanges)
-                .SingleOrDefault();
+                .ToListAsync();
+        public async Task<Patient> GetPatientAsync(Guid patientId, bool trackChanges) =>
+            await FindByCondition(p => p.PatientId.Equals(patientId), trackChanges)
+                .SingleOrDefaultAsync();
         public void CreatePatient(Patient patient) => Create(patient);
         public void UpdatePatient(Patient patient) => Update(patient);
         public void DeletePatient(Patient patient) => Delete(patient);

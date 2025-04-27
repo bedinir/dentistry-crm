@@ -22,6 +22,6 @@ namespace Repository
         }
         public IDentistryRepository Dentistry => _dentistryRepository;
         public IPatientRepository Patient => _patientRepository.Value;
-        public void Save() => _repositoryContext.SaveChanges();
+        public async Task SaveAsync() => _repositoryContext.SaveChangesAsync();
     }
 }
